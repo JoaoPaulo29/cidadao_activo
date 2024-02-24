@@ -9,6 +9,7 @@ class RegisterOcurrencyPage extends StatefulWidget {
 
 class _RegisterOcurrencyPageState extends State<RegisterOcurrencyPage> {
   DateTime getDate = DateTime.now();
+  TimeOfDay getTime = TimeOfDay.now();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,9 +56,45 @@ class _RegisterOcurrencyPageState extends State<RegisterOcurrencyPage> {
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
+                    elevation: 0,
                     backgroundColor:
                         Colors.transparent, // Cor do texto do botão
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(10), // Borda arredondada
+                    ),
+                  ),
+                  onPressed: () async {
+                    final TimeOfDay? time = await showTimePicker(
+                        context: context, initialTime: TimeOfDay.now());
+                    if (time != null) {
+                      setState(() {
+                        getTime = time;
+                      });
+                    }
+                  },
+                  child: Text(
+                    '${getTime.hour} - ${getTime.minute}',
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+              )),
+          Padding(
+              padding: const EdgeInsets.only(
+                right: 20,
+                left: 35,
+              ),
+              child: Container(
+                margin: const EdgeInsets.only(right: 180),
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        Colors.transparent, // Cor do texto do botão
+                    elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.circular(10), // Borda arredondada
