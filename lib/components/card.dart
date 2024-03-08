@@ -1,11 +1,10 @@
+import 'package:cidadao_activo/pages/ocorrency/detals.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CardComponet extends StatelessWidget {
-  final String img;
-  const CardComponet({
-    super.key,
-    required this.img,
-  });
+  final QueryDocumentSnapshot<Map<String, dynamic>> data;
+  const CardComponet({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +12,18 @@ class CardComponet extends StatelessWidget {
       padding: const EdgeInsetsDirectional.fromSTEB(12, 10, 12, 0),
       child: Card(
         child: InkWell(
-          onTap: () => {print('leu')},
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetalsOcurrencyPage(
+                  data: data,
+                ),
+              ),
+            );
+          },
           child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.45,
+            height: MediaQuery.of(context).size.height * 0.50,
             width: MediaQuery.of(context).size.width * 0.6,
             child: Container(
               decoration: const BoxDecoration(
@@ -38,7 +46,7 @@ class CardComponet extends StatelessWidget {
                           topRight: Radius.circular(20),
                         ),
                         child: Image.asset(
-                          img,
+                          data['foto'],
                           width: MediaQuery.of(context).size.width * 0.6,
                           height: MediaQuery.of(context).size.height * 0.25,
                           fit: BoxFit.cover,
@@ -48,38 +56,100 @@ class CardComponet extends StatelessWidget {
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.6,
-                    height: MediaQuery.of(context).size.height * 0.11,
-                    child: const Column(
+                    height: MediaQuery.of(context).size.height * 0.115,
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(10, 2, 0, 0),
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(10, 1, 0, 0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text(
-                                'Nome:',
+                              const Text(
+                                'Designação:',
                                 style: TextStyle(
                                     fontFamily: 'Outfit',
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               ),
                               Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    12, 0, 0, 0),
                                 child: Text(
-                                  'Nome',
-                                  style: TextStyle(
+                                  data['designation'].toUpperCase(),
+                                  style: const TextStyle(
+                                    fontFamily: 'Outfit',
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Local:',
+                                style: TextStyle(
+                                    fontFamily: 'Outfit',
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    10, 0, 0, 0),
+                                child: Text(
+                                  data['local'].toUpperCase(),
+                                  style: const TextStyle(
                                       fontFamily: 'Outfit',
-                                      fontSize: 18,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.normal),
                                 ),
                               ),
                             ],
                           ),
-                        )
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    10, 0, 0, 0),
+                                child: Text(
+                                  '${data['data'].toDate().day}/${data['data'].toDate().month}/${data['data'].toDate().year}',
+                                  style: const TextStyle(
+                                      fontFamily: 'Outfit',
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    12, 0, 0, 0),
+                                child: Text(
+                                  data['hora'],
+                                  style: const TextStyle(
+                                      fontFamily: 'Outfit',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   )

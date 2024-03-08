@@ -4,14 +4,14 @@ class UserModel {
   final String id;
   final String name;
   final String email;
-  final String password;
+  final String? password;
   final String? photoUrl;
 
   UserModel({
     required this.id,
     required this.name,
     required this.email,
-    required this.password,
+    this.password,
     this.photoUrl,
   });
 
@@ -20,8 +20,7 @@ class UserModel {
       'id': id,
       'name': name,
       'email': email,
-      'password':
-          password, // Note que armazenar senhas em texto plano não é seguro.
+      'password': password,
       'photoUrl': photoUrl,
     };
   }

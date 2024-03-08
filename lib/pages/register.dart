@@ -158,15 +158,16 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                                 onPressed: () {
                                   Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const LoginPage()));
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const LoginPage(),
+                                    ),
+                                  );
                                 },
                               ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),

@@ -1,3 +1,4 @@
+import 'package:cidadao_activo/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -27,7 +28,7 @@ class AuthenticationService {
     }
   }
 
-    Future<String?> login(
+  Future<String?> login(
       {required String email, required String password}) async {
     try {
       await _authService.signInWithEmailAndPassword(
@@ -40,5 +41,34 @@ class AuthenticationService {
 
   Future<void> logOut() async {
     return _authService.signOut();
+  }
+
+  Future<UserModel> getCurrentUser() async {
+    try {
+      User? user = _authService.currentUser;
+      if (user != null) {
+        QuerySnapshot querySnapshot = await _firestore
+            .collection('users')
+            .where('id', isEqualTo: user.uid)
+            .get();
+        if (querySnapshot.docs.isNotEmpty) {
+          var userData =
+              querySnapshot.docs.first.data() as Map<String, dynamic>;
+          return UserModel(
+            id: userData['id'],
+            name: userData['name'],
+            email: userData['email'],
+            photoUrl: userData['photoUrl'],
+          );
+        } else {
+          throw Exception('Usuário não encontrado no Firestore');
+        }
+      } else {
+        throw Exception('Nenhum usuário logado');
+      }
+    } catch (e) {
+      print(e);
+      rethrow; // Rethrow a exceção para que o chamador possa lidar com isso adequadamente
+    }
   }
 }

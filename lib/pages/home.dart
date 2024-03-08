@@ -3,7 +3,9 @@ import 'package:cidadao_activo/components/drawer.dart';
 import 'package:cidadao_activo/components/search.dart';
 import 'package:cidadao_activo/components/titleArea.dart';
 import 'package:cidadao_activo/pages/ocorrency/register_ocorrency.dart';
+import 'package:cidadao_activo/pages/ocorrency/show_ocurrency.dart';
 import 'package:cidadao_activo/utils/variaveis_globals.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -154,13 +156,13 @@ class _HomePageState extends State<HomePage> {
                                       MediaQuery.of(context).size.width * 0.40,
                                   child: ElevatedButton(
                                     onPressed: () => {
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) =>
-                                      //          ListAcidentPage(),
-                                      //   ),
-                                      // )
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ShowOcorrencyPage(),
+                                        ),
+                                      )
                                     },
                                     style: ElevatedButton.styleFrom(
                                         padding: const EdgeInsetsDirectional
@@ -197,20 +199,29 @@ class _HomePageState extends State<HomePage> {
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.9,
                         height: MediaQuery.of(context).size.height * 0.4,
-                        child: const SingleChildScrollView(
+                        child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              CardComponet(
-                                img: 'assets/images/acidente.jpg',
-                              ),
-                              CardComponet(
-                                img: 'assets/images/acidente1.jpg',
-                              ),
-                              CardComponet(
-                                img: 'assets/images/ACIDENTE-1.jpg',
-                              ),
-                            ],
+                          child: StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection('ocorrencies')
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const CircularProgressIndicator();
+                              }
+                              if (snapshot.hasError) {
+                                return const Text(
+                                    'Erro ao carregar os dados do Firebase');
+                              }
+                              return Row(
+                                children: snapshot.data!.docs.map((doc) {
+                                  return CardComponet(
+                                    data: doc,
+                                  );
+                                }).toList(),
+                              );
+                            },
                           ),
                         ),
                       ),
@@ -228,20 +239,29 @@ class _HomePageState extends State<HomePage> {
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.9,
                         height: MediaQuery.of(context).size.height * 0.4,
-                        child: const SingleChildScrollView(
+                        child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              CardComponet(
-                                img: 'assets/images/acidente.jpg',
-                              ),
-                              CardComponet(
-                                img: 'assets/images/acidente1.jpg',
-                              ),
-                              CardComponet(
-                                img: 'assets/images/ACIDENTE-1.jpg',
-                              ),
-                            ],
+                          child: StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection('ocorrencies')
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const CircularProgressIndicator();
+                              }
+                              if (snapshot.hasError) {
+                                return const Text(
+                                    'Erro ao carregar os dados do Firebase');
+                              }
+                              return Row(
+                                children: snapshot.data!.docs.map((doc) {
+                                  return CardComponet(
+                                    data: doc,
+                                  );
+                                }).toList(),
+                              );
+                            },
                           ),
                         ),
                       ),
