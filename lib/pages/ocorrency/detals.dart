@@ -43,15 +43,19 @@ class _DetalsOcurrencyPageState extends State<DetalsOcurrencyPage> {
           ),
           SingleChildScrollView(
             child: Expanded(
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                height: MediaQuery.of(context).size.height * 0.4,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: const Text(
-                  'Designação:',
-                ),
+              child: Column(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: const Text(
+                      'Designação:',
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

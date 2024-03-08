@@ -254,7 +254,6 @@ class _ShowOcorrencyPageState extends State<ShowOcorrencyPage> {
                             ),
                           ),
                         );
-                        return null;
                       },
                     );
                   }),
